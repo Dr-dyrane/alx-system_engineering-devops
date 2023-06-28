@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Script Name: 7-clock
+################################################################################
+# Description:
+#     Displays the time for 12 hours and 59 minutes.
+#     - Displays hours from 0 to 12.
+#     - Displays minutes from 1 to 59.
+#
+# Usage:
+#     ./7-clock
+################################################################################
+
+hour=0
+
+while [ $hour -lt 13 ]; do
+    echo "Hour: $hour"
+
+    minute=1
+
+    while [ $minute -lt 60 ]; do
+        echo $minute
+        minute=$((minute + 1))
+    done
+
+    hour=$((hour + 1))
+done

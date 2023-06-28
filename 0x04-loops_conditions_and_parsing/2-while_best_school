@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Script Name: 2-while_best_school
+################################################################################
+# Description:
+#     Displays the phrase "Best School" 10 times.
+#
+# Usage:
+#     ./2-while_best_school
+#
+# Notes:
+#     - This script utilizes a while loop to repeat the phrase for a specific number of iterations.
+################################################################################
+
+# Initializing the counter
+count=0
+
+# Using a while loop to repeat the phrase "Best School" 10 times
+while [ $count -lt 10 ]; do
+    echo "Best School"
+    count=$((count + 1))
+done

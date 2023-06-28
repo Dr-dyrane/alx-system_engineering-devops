@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Script Name: 102-lets_parse_apache_logs
+################################################################################
+# Description:
+#     Displays the visitor IP along with the HTTP status code from the Apache log file.
+#
+# Usage:
+#     ./102-lets_parse_apache_logs
+################################################################################
+
+awk '{print $1, $9}' apache-access.log

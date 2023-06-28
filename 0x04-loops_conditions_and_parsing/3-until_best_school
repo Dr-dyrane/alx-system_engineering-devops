@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Script Name: 3-until_best_school
+################################################################################
+# Description:
+#     Displays the phrase "Best School" 10 times.
+#
+# Usage:
+#     ./3-until_best_school
+#
+# Notes:
+#     - This script utilizes an until loop to repeat the phrase for a specific number of iterations.
+################################################################################
+
+# Initializing the counter
+count=0
+
+# Using an until loop to repeat the phrase "Best School" 10 times
+until [ $count -eq 10 ]; do
+    echo "Best School"
+    count=$((count + 1))
+done

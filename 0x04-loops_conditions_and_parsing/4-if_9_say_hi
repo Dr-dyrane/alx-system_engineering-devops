@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Script Name: 4-if_9_say_hi
+################################################################################
+# Description:
+#     Displays the phrase "Best School" 10 times, but for the 9th iteration, displays
+#     "Best School" and then "Hi" on a new line.
+#
+# Usage:
+#     ./4-if_9_say_hi
+################################################################################
+
+# Initializing the counter
+count=0
+
+# Using a while loop and if statement to display "Best School" 10 times
+while [ $count -lt 10 ]; do
+    # Checking if it's the 9th iteration
+    if [ $count -eq 8 ]; then
+        echo "Best School"
+        echo "Hi"
+    else
+        echo "Best School"
+    fi
+
+    count=$((count + 1))
+done

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Script Name: 1-for_best_school
+################################################################################
+# Description: Displays the phrase "Best School" 10 times.
+#              This script utilizes a for loop to repeat the phrase for a specific number of iterations.
+# Usage:       ./1-for_best_school
+################################################################################
+
+# Using a for loop to repeat the phrase "Best School" 10 times
+for ((i = 0; i < 10; i++)); do
+    echo "Best School"
+done

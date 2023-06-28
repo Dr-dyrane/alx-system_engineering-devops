@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Script Name: 5-4_bad_luck_8_is_your_chance
+################################################################################
+# Description:
+#     Loops from 1 to 10 and displays different messages based on the loop iteration.
+#     - Displays "bad luck" for the 4th iteration.
+#     - Displays "good luck" for the 8th iteration.
+#     - Displays "Best School" for other iterations.
+#
+# Usage:
+#     ./5-4_bad_luck_8_is_your_chance
+################################################################################
+
+count=1
+
+while [ $count -le 10 ]; do
+    if [ $count -eq 4 ]; then
+        echo "bad luck"
+    elif [ $count -eq 8 ]; then
+        echo "good luck"
+    else
+        echo "Best School"
+    fi
+
+    count=$((count + 1))
+done
