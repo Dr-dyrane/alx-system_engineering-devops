@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+################################################################################
+# Script Name: 5-dont_stop_me_now
+# Description: Stops the 4-to_infinity_and_beyond process.
+#
+# Requirements:
+# - Use the kill command with pgrep to stop the process
+################################################################################
+
+# Kill the 4-to_infinity_and_beyond process
+kill "$(pgrep -f 4-to_infinity_and_beyond)"

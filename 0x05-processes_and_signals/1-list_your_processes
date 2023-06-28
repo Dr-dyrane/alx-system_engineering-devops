@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+################################################################################
+# Script Name: 1-list_your_processes
+# Description: Displays a list of currently running processes.
+#              - Shows all processes, for all users, including those which might not have a TTY.
+#              - Displays in a user-oriented format.
+#              - Shows process hierarchy.
+# Usage:       ./1-list_your_processes
+################################################################################
+
+# Use ps command with the -auxf options to list all processes with the desired format
+ps -auxf

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+################################################################################
+# Script Name: 4-to_infinity_and_beyond
+# Description: Displays "To infinity and beyond" indefinitely.
+#
+# Requirements:
+# - Add a sleep 2 between each iteration of the loop
+################################################################################
+
+# Infinite loop
+while true; do
+    echo "To infinity and beyond"
+    sleep 2
+done

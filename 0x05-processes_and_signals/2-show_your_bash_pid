@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+################################################################################
+# Script Name: 2-show_your_bash_pid
+# Description: Displays lines containing the bash word, allowing you to easily get the PID of your Bash process.
+#
+# Requirements:
+# - Cannot use pgrep
+# - The third line of the script must be "# shellcheck disable=SC2009" (to ignore shellcheck error)
+################################################################################
+
+# shellcheck disable=SC2009
+# Use the ps command with the -ef options to list all processes and filter lines containing the word "bash"
+ps -aux | grep bash

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+################################################################################
+# Script Name: 7-highlander
+# Description: Displays "To infinity and beyond" indefinitely with a sleep 2 in between each iteration.
+#              It also prints "I am invincible!!!" when receiving a SIGTERM signal.
+################################################################################
+
+# Infinite loop with sleep 2 between each iteration
+while true; do
+    echo "To infinity and beyond"
+    sleep 2
+
+    # Trap SIGTERM signal and execute a custom function
+    trap 'echo "I am invincible!!!"' SIGTERM
+done

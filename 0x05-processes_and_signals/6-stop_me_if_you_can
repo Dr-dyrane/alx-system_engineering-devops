@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+################################################################################
+# Script Name: 6-stop_me_if_you_can
+# Description: Stops the 4-to_infinity_and_beyond process.
+#
+# Requirements:
+# - Use the pkill command to stop the process
+################################################################################
+
+# Stop the 4-to_infinity_and_beyond process using pkill
+pkill -f 4-to_infinity_and_beyond

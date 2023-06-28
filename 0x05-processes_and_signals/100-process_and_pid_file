@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+################################################################################
+# Script Name: 100-process_and_pid_file
+# Description: Performs actions based on signals and manages a PID file.
+#              Creates the file /var/run/myscript.pid containing its PID.
+#              Displays "To infinity and beyond" indefinitely.
+#              Displays "I hate the kill command" upon receiving a SIGTERM signal.
+#              Displays "Y U no love me?!" upon receiving a SIGINT signal.
+#              Deletes the file /var/run/myscript.pid and terminates itself upon
+#              receiving a SIGQUIT or SIGTERM signal.
+################################################################################
+
+# Function to perform cleanup and terminate the script
+terminator() {
+    rm /var/run/myscript.pid
+    exit
+}
+
+# Write the PID to the pid file
+echo "$$" >/var/run/myscript.pid
+
+# Main loop
+while true; do
+    echo "To infinity and beyond"
+    sleep 2
+
+    # Trap to handle SIGINT signal (Ctrl+C)
+    trap 'echo "Y U no love me?!"' SIGINT
+
+    # Trap to handle SIGTERM signal
+    trap 'echo "I hate the kill command" && terminator' SIGTERM
+
+    # Trap to handle SIGQUIT signal
+    trap 'terminator' SIGQUIT
+done
