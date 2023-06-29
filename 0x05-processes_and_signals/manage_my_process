@@ -2,7 +2,8 @@
 #manage_my_process
 ################################################################################
 # Script Name: manage_my_process
-# Description: Bash script that writes "I am alive!" to the file /tmp/my_process indefinitely.
+# Description: Bash script that writes "I am alive!" to the file /tmp/my_process
+# indefinitely.
 #              Pauses for 2 seconds between each message.
 ################################################################################
 
