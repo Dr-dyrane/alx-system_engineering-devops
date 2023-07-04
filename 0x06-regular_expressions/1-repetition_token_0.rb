@@ -2,8 +2,8 @@
 # Script Name: 1-repetition_token_0.rb
 ###############################################################################
 # Description:
-#   This script matches a string that starts with 'h' and is followed by any
-#   number of 't' characters, and ends with 'n'.
+#   This script matches a string that starts with 'h', followed by any
+#   number of 't' characters (2 to 5 repetitions), and ends with 'n'.
 #
 # Usage:
 #   ./1-repetition_token_0.rb [STRING]
@@ -28,8 +28,8 @@
 #
 ###############################################################################
 
-# Match the pattern: starts with 'h', followed by any number of 't' characters, ends with 'n'
-matched_string = ARGV[0].scan(/h(t*)n/).join
+# Match the pattern: starts with 'h', followed by any number of 't' characters (2 to 5 repetitions), ends with 'n'
+matched_string = ARGV[0].scan(/hbt{2,5}n/).join
 
 # Output the matched string
 puts matched_string
