@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# 1-show_attached_IPs
+###############################################################################
+# Script: 1-show_attached_IPs
+# Description: Displays all active IPv4 IPs on the machine it's executed on.
+# Author: Your Name
+# Date: July 5, 2023
+###############################################################################
+
+# Use ifconfig to get network interface information, filter for IPv4 addresses, and extract the IP addresses
+ip_addresses=$(ifconfig | grep -Eo "inet (addr:)?([0-9]*\.){3}[0-9]*" | cut -b 11-)
+
+# Display the IP addresses
+echo "$ip_addresses"
+
+###############################################################################
+# Comments:
+# - This script uses the `ifconfig` command to retrieve network interface information.
+# - It then filters the output to extract IPv4 addresses using regular expressions.
+# - The extracted IP addresses are displayed using the `echo` command.
+# - The script assumes that the machine has `ifconfig` installed and that it supports the desired format of output.
+###############################################################################
