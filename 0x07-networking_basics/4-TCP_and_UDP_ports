@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# 4-TCP_and_UDP_ports.sh
+################################################################################
+# Script Name: 4-TCP_and_UDP_ports.sh
+# Description: A Bash script that displays listening ports,
+#              showing only the listening sockets and the corresponding
+#              PID and program name.
+# Usage: sudo ./4-TCP_and_UDP_ports.sh
+#
+# Requirements: This script requires sudo privileges to execute netstat.
+################################################################################
+
+# Command to display listening ports with PID and program name
+
+sudo netstat -lp
+
+################################################################################
+# Comments:
+# - This script uses the `netstat` command to retrieve information about
+#              listening ports on the system.
+# - The `sudo` command is used to run `netstat` with elevated privileges.
+# - The `-l` option is used to display only listening sockets.
+# - The `-p` option is used to show the PID and program name associated with each socket.
+# - By running this script, you can quickly identify the active network services
+#              and the processes that are using them.
+################################################################################

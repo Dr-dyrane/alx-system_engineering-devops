@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# 5-is_the_host_on_the_network.sh
+################################################################################
+# Script Name: 5-is_the_host_on_the_network.sh
+# Description: A Bash script that pings an IP address passed as an argument
+#              to check if the host is on the network.
+# Usage: ./5-is_the_host_on_the_network.sh {IP_ADDRESS}
+#
+# Requirements: This script requires the ping command to be installed.
+################################################################################
+
+# Check if an IP address argument is provided
+if [ -z "$1" ]; then
+    echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
+    exit 1
+fi
+
+# Ping the IP address 5 times and display the results
+ping -c 5 "$1"
+
+################################################################################
+# Comments:
+# - This script uses the `ping` command to send ICMP requests to an IP address.
+# - The script accepts an IP address as an argument, provided when executing the script.
+# - If no IP address argument is provided, it displays a usage message and exits.
+# - The `-c 5` option is used with `ping` to send 5 ICMP requests to the specified IP address.
+# - The script then displays the ping statistics, including the number of packets transmitted
+#   and received, packet loss percentage, and round-trip time statistics.
+# - By running this script with a specific IP address, you can check if the host is on the network
+#   and observe the response times, which can indicate the network performance.
+################################################################################
