@@ -1,0 +1,102 @@
+## File: 1-distributed_web_infrastructure
+
+### Distributed Web Infrastructure Design for www.foobar.com
+
+#### Visual Representation (Text-based Diagram):
+
+```
+                     +---------------------------+
+                     |                           |
+                     |         User's Computer   |
+                     |                           |
+                     +------+--------------------+
+                            | HTTP Request
+                            V
+           +------------------------------+
+           |        Load Balancer         |
+           |         (HAproxy)            |
+           +--------------+---------------+
+                          | Load Balancing (Round Robin)
+                          V
+   +-----------------------+       +------------------------+
+   |       Server 1        |       |        Server 2        |
+   |                       |       |                        |
+   |  +-----------------+  |       |  +------------------+  |
+   |  |  Web Server     |  |       |  |  Web Server      |  |
+   |  |    (Nginx)      |  |       |  |    (Nginx)       |  |
+   |  +-----------------+  |       |  +------------------+  |
+   |          |            |       |          |             |
+   |          | HTTP Request|      |          | HTTP Request|
+   |          V            |       |          V             |
+   |  +-----------------+  |       |  +------------------+  |
+   |  | Application     |  |       |  | Application      |  |
+   |  | Server          |  |       |  | Server           |  |
+   |  +-----------------+  |       |  +------------------+  |
+   |          |            |       |          |             |
+   |          | Process Request|   |          | Process Request|
+   |          V            |       |          V             |
+   |  +-----------------+  |       |  +------------------+  |
+   |  | Application     |  |       |  | Application      |  |
+   |  | Files (Code Base)| |       |  | Files (Code Base)|  |
+   |  +-----------------+  |       |  +------------------+  |
+   |          |            |       |          |             |
+   |          | Database Query|    |          | Database Query|
+   |          V            |       |          V             |
+   |  +-----------------+  |       |  +------------------+  |
+   |  | Database       |   |       |  | Database         |  |
+   |  | (MySQL)        |   |       |  | (MySQL)          |  |
+   |  +-----------------+  |       |  +------------------+  |
+   +-----------------------+       +------------------------+
+```
+
+#### Documentation:
+
+The above text-based diagram illustrates a three-server distributed web infrastructure that hosts the website www.foobar.com. Let's go through the components and their roles:
+
+- **User's Computer:** Represents the user's device (e.g., laptop, smartphone) from which they access the website.
+
+- **Load Balancer (HAproxy):** The load balancer distributes incoming HTTP requests across the two web servers to ensure efficient utilization of resources and even distribution of traffic.
+
+- **Server 1 and Server 2:** The two servers in the infrastructure that host the website. They work in tandem to handle incoming requests and distribute the load.
+
+- **Web Server (Nginx):** Nginx is used as the web server on both Server 1 and Server 2 to handle incoming HTTP requests and serve web pages.
+
+- **Application Server:** The application server processes dynamic content, executes application-specific tasks, and communicates with the database.
+
+- **Application Files (Code Base):** Contains the code for the website's functionality.
+
+- **Database (MySQL):** MySQL is the database management system used to store and manage website data.
+
+The communication flow is as follows:
+
+1. The user enters www.foobar.com in their web browser.
+2. The load balancer (HAproxy) receives the HTTP request and uses a Round Robin distribution algorithm to forward the request to either Server 1 or Server 2 in a cyclic manner.
+3. The selected web server (Nginx) on Server 1 or Server 2 receives the request and forwards it to the application server.
+4. The application server processes the request, executes code from the application files, and interacts with the database (MySQL) if needed.
+
+#### Explanation of Additional Elements:
+
+- **Load Balancer:** We added a load balancer to distribute incoming traffic across multiple servers, ensuring improved performance and high availability. The Round Robin algorithm evenly distributes requests among the servers.
+
+- **Server 1 and Server 2:** Two servers are used to distribute the load and avoid single points of failure. This configuration enables a more robust and fault-tolerant infrastructure.
+
+#### Active-Active vs. Active-Passive Setup:
+
+In this setup, the load balancer is configured for an Active-Active setup. Both Server 1 and Server 2 actively handle incoming traffic. If one server fails, the other server continues to serve traffic, ensuring high availability.
+
+#### Database Primary-Replica (Master-Slave) Cluster:
+
+The database is set up in a Primary-Replica (Master-Slave) cluster. The Primary node (Master) handles write operations (e.g., INSERT, UPDATE), while the Replica node (Slave) replicates the data from the Primary node and handles read operations (e.g., SELECT). This setup enhances data redundancy and read scalability.
+
+#### Issues with this Infrastructure:
+
+- **Single Point of Failure (SPOF):** Although the load balancer mitigates some SPOF risks, it could become a single point of failure. If the load balancer fails, incoming traffic won't be evenly distributed.
+
+- **Security Issues:** The diagram doesn't show any security components like firewalls or HTTPS, leaving the infrastructure vulnerable to potential security threats.
+
+- **No Monitoring:** There is no monitoring system depicted in the diagram to track server performance and identify potential issues.
+
+#### Authors:
+
+- Ukpono Umoren
+- Alexander Udeogaranya

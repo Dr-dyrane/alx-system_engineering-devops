@@ -1,0 +1,108 @@
+## File: 0-simple_web_stack
+
+### Web Infrastructure Design for www.foobar.com
+
+#### Visual Representation (Text-based Diagram):
+
+```
+   +-----------------------------------------+
+   |               User's Computer           |
+   |                                         |
+   |   +-------------------------------+     |
+   |   | Web Browser                   |     |
+   |   +-------------------------------+     |
+   |               |                         |
+   |               | HTTP Request            |
+   |               V                         |
+   |   +-------------------------------+     |
+   |   | DNS Resolver                  |     |
+   |   +-------------------------------+     |
+   |               |                         |
+   |               | Resolve Domain          |
+   |               V                         |
+   |   +-------------------------------+     |
+   |   | Domain Name: foobar.com       |     |
+   |   +-------------------------------+     |
+   |               |                         |
+   |               | DNS Lookup              |
+   |               V                         |
+   |   +-------------------------------+     |
+   |   | DNS Record: www -> 8.8.8.8    |     |
+   |   +-------------------------------+     |
+   |               |                         |
+   |               | HTTP Request            |
+   |               V                         |
+   |   +-------------------------------+     |
+   |   |  Server: 8.8.8.8 (Your Server)|     |
+   |   +-------------------------------+     |
+   |               |                         |
+   |               | Process Request         |
+   |               V                         |
+   |   +-------------------------------+     |
+   |   | Web Server: Nginx             |     |
+   |   +-------------------------------+     |
+   |               |                         |
+   |               | Request Processing      |
+   |               V                         |
+   |   +-------------------------------+     |
+   |   | Application Server            |     |
+   |   +-------------------------------+     |
+   |               |                         |
+   |               | Execute Code            |
+   |               V                         |
+   |   +-------------------------------+     |
+   |   | Application Files (Code Base) |     |
+   |   +-------------------------------+     |
+   |               |                         |
+   |               | Database Query          |
+   |               V                         |
+   |   +-------------------------------+     |
+   |   | Database: MySQL               |     |
+   |   +-------------------------------+     |
+   +-----------------------------------------+
+```
+
+#### Documentation:
+
+The above text-based diagram illustrates the one-server web infrastructure that hosts the website www.foobar.com. Let's go through the components and their roles:
+
+- **User's Computer:** Represents the user's device (e.g., laptop, smartphone) from which they access the website.
+
+- **Web Browser:** The user's web browser, such as Google Chrome or Mozilla Firefox, is used to request and view the web pages.
+
+- **DNS Resolver:** Responsible for resolving the IP address associated with the domain name www.foobar.com.
+
+- **Domain Name: foobar.com:** The domain name foobar.com, which serves as the address of the website.
+
+- **DNS Record: www -> 8.8.8.8:** The DNS record that maps the subdomain www to the IP address 8.8.8.8, which is the address of our server.
+
+- **Server: 8.8.8.8 (Your Server):** The single server that hosts the entire web infrastructure.
+
+- **Web Server: Nginx:** Nginx is used as the web server to handle incoming HTTP requests and serve web pages.
+
+- **Application Server:** The application server processes dynamic content and executes application-specific tasks.
+
+- **Application Files (Code Base):** Contains the code for the website's functionality.
+
+- **Database: MySQL:** MySQL is the database management system used to store and manage website data.
+
+The communication flow is as follows:
+
+1. The user enters www.foobar.com in their web browser.
+2. The DNS resolver looks up the IP address of www.foobar.com using the DNS record.
+3. The web browser establishes an HTTP connection with our server (8.8.8.8) to request the web page.
+4. The web server (Nginx) receives the request and forwards it to the application server.
+5. The application server processes the request, executes code from the application files, and interacts with the database (MySQL) if needed.
+
+#### Issues with this Infrastructure:
+
+- **Single Point of Failure (SPOF):** Since we have only one server handling all components, it becomes a single point of failure. If the server goes down, the entire website becomes inaccessible.
+
+- **Downtime during Maintenance:** Performing maintenance tasks may require restarting the web server, causing downtime and making the website unavailable.
+
+- **Scalability Challenges:** With a single server, the infrastructure may struggle to handle large incoming traffic efficiently. As the website grows in popularity, scaling may become challenging.
+
+#### Authors:
+
+- Ukpono Umoren
+- Alexander Udeogaranya
