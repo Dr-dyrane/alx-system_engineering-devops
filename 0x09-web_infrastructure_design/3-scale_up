@@ -47,6 +47,8 @@
         +------------------------+     +------------------------+
 ```
 
+![Web Infrastructure Diagram](<www.foobar.com(scaleup).png>)
+
 #### Documentation:
 
 The above text-based diagram illustrates a scalable web infrastructure for www.foobar.com. In this design, we aim to handle increased traffic and ensure high availability by scaling the components.

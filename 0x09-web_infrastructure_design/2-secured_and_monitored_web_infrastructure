@@ -47,6 +47,8 @@
         +------------------------+     +------------------------+
 ```
 
+![Web Infrastructure Diagram](<www.foobar.com(secured).png>)
+
 #### Documentation:
 
 The above text-based diagram illustrates a three-server secured and monitored web infrastructure that hosts the website www.foobar.com. Let's go through the components and their roles:

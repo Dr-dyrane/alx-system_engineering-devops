@@ -49,6 +49,8 @@
    +-----------------------+       +------------------------+
 ```
 
+![Web Infrastructure Diagram](<www.foobar.com(distributed).png>)
+
 #### Documentation:
 
 The above text-based diagram illustrates a three-server distributed web infrastructure that hosts the website www.foobar.com. Let's go through the components and their roles:
