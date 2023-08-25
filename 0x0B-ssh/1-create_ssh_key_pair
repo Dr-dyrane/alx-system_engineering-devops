@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Bash script to create an RSA key pair
+
+###############################################################################
+# Usage:
+#   ./1-create_ssh_key_pair
+#
+# Description:
+#   This script generates an RSA key pair with 4096 bits and a passphrase.
+#   The private key is saved as 'school' and the public key as 'school.pub'.
+#
+# Requirements:
+#   - OpenSSH must be installed on your system.
+#
+# Example:
+#   To create the key pair, simply run the script:
+#   ./1-create_ssh_key_pair
+#
+# Author:
+#   Alexander Udeogaranya
+#
+# Repository:
+#   https://github.com/Dr-dyrane/alx-system_engineering-devops/0x0B-ssh
+###############################################################################
+
+# Check if ssh-keygen is available
+if ! [ -x "$(command -v ssh-keygen)" ]; then
+  echo "Error: ssh-keygen is not installed. Please install OpenSSH." >&2
+  exit 1
+fi
+
+# Define the key file name and passphrase
+KEY_NAME="school"
+PASSPHRASE="betty"
+
+# Generate the RSA key pair
+ssh-keygen -t rsa -b 4096 -f "$KEY_NAME" -N "$PASSPHRASE"

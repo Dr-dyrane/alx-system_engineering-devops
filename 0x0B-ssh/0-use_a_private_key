@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Bash script for SSH connection to a remote server using a private key
+
+###############################################################################
+# Usage:
+#   ./0-use_a_private_key
+#
+# Description:
+#   This script establishes an SSH connection to a remote server using
+#   a private key for authentication.
+#   It logs in as the 'ubuntu' user to the specified server with
+#   the provided IP address.
+#
+# Requirements:
+#   - The private key file must be located at ~/.ssh/school.
+#   - The server IP address must be defined in the SERVER_IP variable.
+#
+# Variables:
+#   SERVER_IP: IP address of the remote server to connect to.
+#
+# Example:
+#   To connect to the server, simply run the script:
+#   ./0-use_a_private_key
+#
+# Author:
+#   Alexander Udeogaranya
+#
+# Repository:
+#   https://github.com/Dr-dyrane/alx-system_engineering-devops/0x0B-ssh
+###############################################################################
+
+# Define the IP address of the remote server
+SERVER_IP="54.160.125.234"
+
+# Connect to the server using SSH with the private key
+ssh -i ~/.ssh/school ubuntu@"$SERVER_IP"

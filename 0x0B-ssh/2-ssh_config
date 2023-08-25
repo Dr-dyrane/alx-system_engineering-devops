@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# SSH Client Configuration
+
+###############################################################################
+# Usage:
+#   ./2-ssh_config
+#
+# Description:
+#   This SSH client configuration file (located at ~/.ssh/config) is used to
+#   configure the SSH client behavior. It specifies the use of the private key
+#   'school' for authentication and disables password-based authentication.
+#   This configuration enhances security and allows passwordless SSH access to
+#   remote servers.
+#
+# Requirements:
+#   - OpenSSH must be installed on your system.
+#   - Ensure that you have already created the 'school' private key and its
+#     corresponding public key with the '1-create_ssh_key_pair' script.
+#
+# Example:
+#   To utilize this configuration file, place it in ~/.ssh/config or execute
+#   the './2-ssh_config' script.
+#
+# Author:
+#   Alexander Udeogaranya
+#
+# Repository:
+#   https://github.com/Dr-dyrane/alx-system_engineering_devops/0x0B-ssh
+###############################################################################
+
+# Configuration for SSH client
+Host *
+    PasswordAuthentication no
+    IdentityFile ~/.ssh/school
+    SendEnv LANG LC_*
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+    HostName 100.26.10.86
+    User ubuntu
