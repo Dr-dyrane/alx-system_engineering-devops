@@ -14,7 +14,7 @@
 #                     /0x0A-configuration_management
 
 # Use the exec to run the pkill command to terminate the "killmenow" process
-exec { 'killmenow':
-  command     => 'pkill -f killmenow',
-  path        => ['/usr/bin', '/usr/sbin'],
-}
+exec { 'pkill killmenow' :
+    path    => '/bin/',
+    command => 'pkill killmenow',
+    }
