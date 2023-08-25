@@ -14,8 +14,7 @@
 #                     /0x0A-configuration_management
 
 # Use the exec resource to run the pkill command to terminate the process
-exec { 'kill':
+exec { 'killmenow':
   command     => 'pkill -f killmenow',
   path        => ['/usr/bin', '/usr/sbin'],
-  refreshonly => true,
 }
