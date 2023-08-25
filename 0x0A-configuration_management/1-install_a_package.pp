@@ -10,7 +10,8 @@
 #   puppet apply 1-install_a_package.pp
 
 # Author: Alexander Udeogaranya
-# Repository: https://github.com/your/repo
+# Repository: https://github.com/Dr-dyrane/alx-system_engineering-devops
+#                     /0x0A-configuration_management
 
 # Use the package resource to install Flask
 package { 'Flask':

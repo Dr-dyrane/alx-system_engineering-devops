@@ -14,7 +14,8 @@
 #   puppet apply 0-create_a_file.pp
 #
 # Author: Alexander Udeogaranya
-# Repository: https://github.com/your/repo
+# Repository: https://github.com/Dr-dyrane/alx-system_engineering-devops
+#                     /0x0A-configuration_management
 
 # Ensure the directory exists
 file { '/tmp':
