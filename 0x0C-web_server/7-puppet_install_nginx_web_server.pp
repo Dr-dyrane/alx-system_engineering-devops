@@ -22,61 +22,33 @@
 #       this manifest.
 ###############################################################################
 
-class nginx_redirect {
-    # Install the Nginx package
-    package { 'nginx':
-        ensure => 'installed',
-    }
+class nginx_install {
+  # Install the Nginx package
+  package { 'nginx':
+    ensure => 'installed',
+  }
 
-    # Ensure Nginx service is running and enabled
-    service { 'nginx':
-        ensure    => 'running',
-        enable    => true,
-        hasstatus => true,
-    }
+  # Create an index.html file with "Hello World!" content
+  file { '/var/www/html/index.html':
+    ensure  => 'present',
+    content => 'Hello World!',
+  }
 
-    # Create an index.html file with "Hello World!" content
-    file { '/var/www/html/index.html':
-        ensure  => 'present',
-        content => "Hello World!\n",
-    }
+  # Configure a 301 redirect for /redirect_me
+  file_line { 'nginx_redirect':
+    ensure => 'present',
+    path   => '/etc/nginx/sites-available/default',
+    after  => 'listen 80 default_server;',
+    line   => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
+  }
 
-    # Configure Nginx site for the root URL (/)
-    file { '/etc/nginx/sites-available/default':
-        ensure  => 'present',
-        content => "server {
-            listen 80 default_server;
-            server_name _;
-
-            location / {
-                add_header Content-Type text/plain;
-                return 200 'Hello World!';
-            }
-
-            location /redirect_me {
-                return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-            }
-        }",
-        require => Package['nginx'],
-    }
-
-    # Enable the default Nginx site
-    file { '/etc/nginx/sites-enabled/default':
-        ensure  => 'link',
-        target  => '/etc/nginx/sites-available/default',
-        require => File['/etc/nginx/sites-available/default'],
-    }
-
-    # Reload Nginx to apply the configuration changes
-    exec { 'nginx-reload':
-        command     => 'service nginx reload',
-        refreshonly => true,
-        subscribe   => [
-            File[
-                '/etc/nginx/sites-available/default'],
-                Service['nginx']],
-    }
+  # Ensure Nginx service is running and enabled
+  service { 'nginx':
+    ensure  => 'running',
+    enable  => true,
+    require => Package['nginx'],
+  }
 }
 
-# Include the nginx_redirect class to apply the configuration
-include nginx_redirect
+# Include the nginx_install class to apply the configuration
+include nginx_install
