@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+###############################################################################
+# 0-transfer_file.sh
+#
+# Description: This Bash script transfers a file from the local client to a
+# remote server using scp.
+#
+# Author: Alexander Udeogaranya
+# GitHub: 
+#  - https://github.com/Dr-dyrane/alx-system_engineering-devops/0x0C-web_server
+#
+# Usage: 0-transfer_file.sh PATH_TO_FILE SERVER_IP USERNAME PATH_TO_SSH_KEY
+#
+#   - PATH_TO_FILE: The path to the file to be transferred.
+#   - SERVER_IP: The IP address of the remote server.
+#   - USERNAME: The username to connect with on the remote server.
+#   - PATH_TO_SSH_KEY: The path to the SSH private key used for authentication.
+#
+# Example:
+#   $ ./0-transfer_file.sh some_page.html 8.8.8.8 username /path/to/private_key
+#
+# The script will transfer the file to the user's home directory on the server.
+# Strict host key checking is disabled when using scp for seamless transfers.
+###############################################################################
+
+# Check if all required parameters are provided
+if [ "$#" -ne 4 ]; then
+    echo "Usage: $0 PATH_TO_FILE SERVER_IP USERNAME PATH_TO_SSH_KEY"
+    exit 1
+fi
+
+# Assign parameters to variables
+path_to_file="$1"
+server_ip="$2"
+username="$3"
+ssh_key="$4"
+
+# Transfer the file to the user's home directory on the server using scp
+scp_options=(
+    -i "$ssh_key"
+    -o StrictHostKeyChecking=no
+    "$path_to_file"
+    "$username@$server_ip":~/
+)
+
+scp "${scp_options[@]}" || { echo "Transfer failed!"; exit 1; }
+
+echo "File successfully transferred to the server."
