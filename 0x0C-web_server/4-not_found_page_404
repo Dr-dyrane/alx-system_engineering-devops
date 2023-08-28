@@ -4,22 +4,26 @@
 #
 # Description: This Bash script configures Nginx to have a custom 404 page
 # that returns an HTTP 404 error code and contains the string "Ceci n'est
-# pas une page."
+# pas une page." It also installs Nginx and sets up a basic configuration.
 #
 # Author: Alexander Udeogaranya
-# GitHub: 
+# GitHub:
 #  - https://github.com/Dr-dyrane/alx-system_engineering-devops/0x0C-web_server
 #
 # Usage: ./4-not_found_page_404.sh
 #
 # Requirements:
-#   - The script should be run on a machine with Nginx installed.
+#   - The script should be run on a machine with Nginx not installed.
 #
 # Example:
 #   $ ./4-not_found_page_404.sh
 #
-# The script will configure Nginx for the custom 404 page.
+# The script will configure Nginx for the custom 404 page and set up Nginx.
 ###############################################################################
+
+# Install Nginx
+apt-get update
+apt-get install -y nginx
 
 # Create a custom 404 error page
 echo "Ceci n'est pas une page" > /usr/share/nginx/html/404_custom.html
@@ -47,3 +51,9 @@ ln -s /etc/nginx/sites-available/custom_404 /etc/nginx/sites-enabled/
 service nginx reload
 
 echo "Nginx configured for custom 404 page."
+
+# Create an index.html file
+echo "Hello World!" > /usr/share/nginx/html/index.html
+
+# Restart Nginx to apply the changes
+service nginx restart

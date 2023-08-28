@@ -3,7 +3,8 @@
 # 3-redirection.sh
 #
 # Description: This Bash script configures Nginx to perform a 301 Moved
-# Permanently redirection from /redirect_me to another specified page.
+# Permanently redirection from /redirect_me to another specified page. It also
+# installs Nginx and sets up a basic configuration.
 #
 # Author: Alexander Udeogaranya
 # GitHub: 
@@ -13,7 +14,7 @@
 #
 # Requirements:
 #   - REDIRECT_PAGE: The URL to which /redirect_me should be redirected.
-#   - The script should be run on a machine with Nginx installed.
+#   - The script should be run on a machine with Nginx not installed.
 #
 # Example:
 #   $ ./3-redirection.sh https://www.youtube.com/watch?v=QH2-TGUlwu4
@@ -29,6 +30,13 @@ fi
 
 # Assign the redirection page URL to a variable
 redirect_page="$1"
+
+# Install Nginx
+apt-get update
+apt-get install -y nginx
+
+# Create an index.html file
+echo "Hello World!" > /usr/share/nginx/html/index.html
 
 # Create an Nginx configuration file for redirection
 cat > /etc/nginx/sites-available/redirect_me <<EOF
