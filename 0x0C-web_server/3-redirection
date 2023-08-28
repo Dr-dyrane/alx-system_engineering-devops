@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+###############################################################################
+# 3-redirection.sh
+#
+# Description: This Bash script configures Nginx to perform a 301 Moved
+# Permanently redirection from /redirect_me to another specified page.
+#
+# Author: Alexander Udeogaranya
+# GitHub: 
+#  - https://github.com/Dr-dyrane/alx-system_engineering-devops/0x0C-web_server
+#
+# Usage: ./3-redirection.sh REDIRECT_PAGE
+#
+# Requirements:
+#   - REDIRECT_PAGE: The URL to which /redirect_me should be redirected.
+#   - The script should be run on a machine with Nginx installed.
+#
+# Example:
+#   $ ./3-redirection.sh https://www.youtube.com/watch?v=QH2-TGUlwu4
+#
+# The script will configure Nginx for the specified redirection.
+###############################################################################
+
+# Check if the required parameter is provided
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 REDIRECT_PAGE"
+    exit 1
+fi
+
+# Assign the redirection page URL to a variable
+redirect_page="$1"
+
+# Create an Nginx configuration file for redirection
+cat > /etc/nginx/sites-available/redirect_me <<EOF
+server {
+    listen 80;
+    server_name _;
+
+    location /redirect_me {
+        return 301 $redirect_page;
+    }
+}
+EOF
+
+# Enable the redirection configuration
+ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+
+# Reload Nginx to apply the new configuration
+service nginx reload
+
+echo "Nginx configured for 301 redirection from /redirect_me to $redirect_page."
