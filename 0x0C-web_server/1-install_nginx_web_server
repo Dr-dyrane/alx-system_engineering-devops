@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+################################################################################
+# 1-install_nginx_web_server.sh
+#
+# Description: This Bash script installs the Nginx web server on an Ubuntu
+# server and verifies its installation by checking if it serves a page with
+# the string "Hello World!" when queried.
+#
+# Author: Alexander Udeogaranya
+# GitHub: 
+#  - https://github.com/Dr-dyrane/alx-system_engineering-devops/0x0C-web_server
+#
+# Usage: ./1-install_nginx_web_server.sh
+#
+# Requirements:
+#   - The script should be run on an Ubuntu server.
+#   - Nginx should be listening on port 80.
+#   - When querying Nginx at its root / with a GET request using curl, it must
+#     return a page that contains the string "Hello World!"
+#   - The script cannot use systemctl for restarting nginx.
+#
+# Example:
+#   $ ./1-install_nginx_web_server.sh
+#
+# The script will install Nginx, configure it as required, and perform the
+# verification steps.
+################################################################################
+
+# Install Nginx using apt-get
+apt-get update -y
+apt-get install nginx -y
+
+# Create a custom Nginx configuration to serve "Hello World!"
+cat > /etc/nginx/sites-available/default <<EOF
+server {
+    listen 80 default_server;
+    server_name _;
+
+    location / {
+        add_header Content-Type text/plain;
+        return 200 "Hello World!";
+    }
+}
+EOF
+
+# Reload Nginx to apply the configuration
+service nginx reload
+
+# Verify Nginx installation by querying the root / (local and remote)
+local_response=$(curl -s http://localhost)
+remote_response=$(curl -s http://$(hostname -I | awk '{print $1}'))
+
+if [[ "$local_response" == *"Hello World!"* &&
+      "$remote_response" == *"Hello World!"* ]]; then
+    echo "Nginx installation successful."
+else
+    echo "Nginx installation failed or does not serve 'Hello World!'"
+    exit 1
+fi
+
+# Exit with success
+exit 0
