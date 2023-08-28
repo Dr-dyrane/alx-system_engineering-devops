@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+###############################################################################
+# Description: This Bash script runs an Apache server inside the 265-0 
+#              Docker container and configures it to return a page containing
+#              "Hello Holberton" when querying the root.
+#
+# Author: Alexander Udeogaranya
+# GitHub: 
+# https://github.com/Dr-dyrane/alx-system_engineering-devops/
+# 0x0D-web_stack_debugging_0
+#
+# Requirements:
+#   - Docker must be installed on the host machine.
+#   - The holbertonschool/265-0 Docker image should be available.
+#
+# Usage: ./run_apache_in_docker.sh
+#
+# Note: Make sure to run this script with appropriate privileges
+# (e.g., sudo) if required.
+###############################################################################
+
+# Add ServerName to Apache configuration
+echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Start the Apache service
+service apache2 start
+
+# To verify, you can query the container's port 8080 
+# (make sure the container is running).
+# Example: curl 0:8080
