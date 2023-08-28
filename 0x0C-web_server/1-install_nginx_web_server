@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-################################################################################
+###############################################################################
 # 1-install_nginx_web_server.sh
 #
 # Description: This Bash script installs the Nginx web server on an Ubuntu
@@ -24,7 +24,7 @@
 #
 # The script will install Nginx, configure it as required, and perform the
 # verification steps.
-################################################################################
+###############################################################################
 
 # Update package lists and install Nginx
 apt-get -y update
@@ -33,7 +33,8 @@ apt-get -y install nginx
 # Allow incoming HTTP traffic in the Uncomplicated Firewall (UFW)
 ufw allow 'Nginx HTTP'
 
-# Create an HTML file with "Hello World!" content in the default Nginx web directory
+# Create an HTML file with "Hello World!" content
+# in the default Nginx web directory
 echo 'Hello World!' > /var/www/html/index.html
 
 # Start the Nginx service
