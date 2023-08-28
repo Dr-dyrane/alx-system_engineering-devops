@@ -26,25 +26,18 @@
 # verification steps.
 ################################################################################
 
-# Install Nginx using apt-get
-apt-get update -y
-apt-get install nginx -y
+# Update package lists and install Nginx
+apt-get -y update
+apt-get -y install nginx
 
-# Create a custom Nginx configuration to serve "Hello World!"
-cat > /etc/nginx/sites-available/default <<EOF
-server {
-    listen 80 default_server;
-    server_name _;
+# Allow incoming HTTP traffic in the Uncomplicated Firewall (UFW)
+ufw allow 'Nginx HTTP'
 
-    location / {
-        add_header Content-Type text/plain;
-        return 200 "Hello World!";
-    }
-}
-EOF
+# Create an HTML file with "Hello World!" content in the default Nginx web directory
+echo 'Hello World!' > /var/www/html/index.html
 
-# Reload Nginx to apply the configuration
-service nginx reload
+# Start the Nginx service
+service nginx start
 
 # Verify Nginx installation by querying the root / (local and remote)
 local_response=$(curl -s http://localhost)
