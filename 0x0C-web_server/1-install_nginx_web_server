@@ -1,7 +1,67 @@
 #!/usr/bin/env bash
-# Installs nginx server
-apt-get update
+###############################################################################
+# 1-install_nginx_web_server.sh
+#
+# Description: This Bash script installs the Nginx web server on an Ubuntu
+# server and verifies its installation by checking if it serves a page with
+# the string "Hello World!" when queried.
+#
+# Author: Alexander Udeogaranya
+# GitHub: 
+#  - https://github.com/Dr-dyrane/alx-system_engineering-devops/0x0C-web_server
+#
+# Usage: ./1-install_nginx_web_server.sh
+#
+# Requirements:
+#   - The script should be run on an Ubuntu server.
+#   - Nginx should be listening on port 80.
+#   - When querying Nginx at its root / with a GET request using curl, it must
+#     return a page that contains the string "Hello World!"
+#   - The script cannot use systemctl for restarting nginx.
+#
+# Example:
+#   $ ./1-install_nginx_web_server.sh
+#
+# The script will install Nginx, configure it as required, and perform the
+# verification steps.
+###############################################################################
+
+# Update package lists and install Nginx
+apt-get -y update
 apt-get -y install nginx
-ufw allow 'Nginx HTTP'
-echo "Hello World!" > /var/www/html/index.html
-service nginx start
+
+# Create an HTML file with "Hello World!" content
+# in the default Nginx web directory
+echo 'Hello World!' > /var/www/html/index.html
+
+# Ensure Nginx is listening on port 80
+if ! grep -q "listen 80;" /etc/nginx/sites-available/default; then
+    sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+fi
+
+# Restart Nginx to apply the changes
+service nginx restart
+
+# Check Nginx Configuration
+nginx_test_output=$(nginx -t 2>&1)
+
+# Verify if Nginx configuration test is successful
+if [[ $nginx_test_output == *"test is successful"* ]]; then
+    echo "Nginx configuration test: PASSED"
+    # Re-run checks
+    ./1-install_nginx_web_server > /dev/null 2>&1
+
+    # Verify the response
+    curl_output=$(curl -s localhost)
+
+    if [[ "$curl_output" == "Hello World!" ]]; then
+        echo "Nginx serves 'Hello World!': PASSED"
+        exit 0
+    else
+        echo "Nginx serves 'Hello World!': FAILED"
+        exit 1
+    fi
+else
+    echo "Nginx configuration test: FAILED"
+    exit 1
+fi
