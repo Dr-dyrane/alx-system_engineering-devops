@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+###############################################################################
+# Script: 0-nginx_likes_port_80
+#
+# Description:
+#   This script is designed to diagnose and fix an issue with
+#   the Nginx web server not listening on port 80 in an Ubuntu container.
+#   It removes the default Nginx configuration and creates
+#   a symbolic link to enable the default site, then restarts the Nginx service
+#
+# Requirements:
+#   - Nginx must be running and listening on port 80 of
+#   - all the server's active IPv4 IPs.
+#
+# Usage:
+#   Run this script using the following command:
+#   ./0-nginx_likes_port_80
+#
+# Author:
+#   [Alexander Udeogaranya]
+#   https://github.com/Dr-dyrane/alx-higher_level_programming/
+#   0x0E-web_stack_debugging_1
+#
+###############################################################################
+
+# Remove the default Nginx configuration
+rm /etc/nginx/sites-enabled/default
+
+# Create a symbolic link to enable the default site
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Restart the Nginx service to apply changes
+service nginx restart
