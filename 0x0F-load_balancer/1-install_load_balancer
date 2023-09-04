@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+###############################################################################
+# This Bash script installs and configures HAproxy in a load balancer server.
+# It ensures that HAproxy is set up to distribute traffic to web-01 and web-02 using a round-robin algorithm.
+# The script also makes HAproxy manageable via an init script.
+#
+# Requirements:
+# - Install HAproxy version 1.8.
+# - Configure HAproxy to balance requests between web-01 and web-02.
+# - Use the roundrobin algorithm for load balancing.
+# - Ensure that HAproxy can be managed via an init script.
+# - Make sure that your servers are configured with the right hostnames: [STUDENT_ID]-web-01 and [STUDENT_ID]-web-02.
+#   If not, follow the provided tutorial.
+#
+# Usage:
+# - Run this script on a new Ubuntu machine to meet the task requirements.
+#
+# Example:
+# $ ./1-install_load_balancer
+###############################################################################
+
+# Add HAproxy repository and install HAproxy version 1.8
+apt-get install -y software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-1.8
+apt-get update
+apt-get install -y haproxy=1.8.*
+
+# Enable HAproxy in the default configuration
+echo "ENABLED=1" >> /etc/default/haproxy
+
+# Backup the original HAproxy configuration
+mv /etc/haproxy/haproxy.cfg{,.original}
+
+# Create a new HAproxy configuration file
+touch /etc/haproxy/haproxy.cfg
+
+# Populate the HAproxy configuration with the necessary settings for load balancing
+printf %s "global
+    log 127.0.0.1 local0 notice
+    maxconn 2000
+    user haproxy
+    group haproxy
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    retries 3
+    option redispatch
+    timeout connect  5000
+    timeout client  10000
+    timeout server  10000
+listen hbnb
+    bind 0.0.0.0:80
+    mode http
+    stats enable
+    stats uri /haproxy?stats
+    balance roundrobin
+    option httpclose
+    option forwardfor
+    server 59637-web-01 54.160.85.72:80 check
+    server 59637-web-02 35.175.132.106:80 check
+" >> /etc/haproxy/haproxy.cfg
+
+# Start the HAproxy service
+service haproxy start
