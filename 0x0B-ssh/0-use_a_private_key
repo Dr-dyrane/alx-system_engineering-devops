@@ -30,7 +30,7 @@
 ###############################################################################
 
 # Define the IP address of the remote server
-SERVER_IP="54.160.125.234"
+SERVER_IP="100.24.236.109"
 
 # Connect to the server using SSH with the private key
 ssh -i ~/.ssh/school ubuntu@"$SERVER_IP"
