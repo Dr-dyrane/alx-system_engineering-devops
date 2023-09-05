@@ -22,38 +22,27 @@
 # The script will configure Nginx for the specified redirection.
 ###############################################################################
 
-# Check if the required parameter is provided
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 REDIRECT_PAGE"
-    exit 1
-fi
-
-# Assign the redirection page URL to a variable
-redirect_page="$1"
+# Update the package list
+sudo apt-get update
 
 # Install Nginx
-apt-get update
-apt-get install -y nginx
+sudo apt-get install -y nginx
 
-# Create an index.html file
-echo "Hello World!" > /usr/share/nginx/html/index.html
+# Create a directory and an index.html file
+sudo mkdir /etc/nginx/html
+sudo touch /etc/nginx/html/index.html
+echo "Hello World!" | sudo tee /etc/nginx/html/index.html
 
-# Create an Nginx configuration file for redirection
-cat > /etc/nginx/sites-available/redirect_me <<EOF
-server {
+# Configure Nginx redirection
+printf %s "server {
     listen 80;
-    server_name _;
-
+    listen [::]:80 default_server;
+    root   /etc/nginx/html;
+    index  index.html index.htm;
     location /redirect_me {
-        return 301 $redirect_page;
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
-}
-EOF
+}" | sudo tee /etc/nginx/sites-available/default
 
-# Enable the redirection configuration
-ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-
-# Reload Nginx to apply the new configuration
-service nginx reload
-
-echo "Nginx configured for 301 redirection from /redirect_me to $redirect_page."
+# Restart Nginx service
+sudo service nginx restart
