@@ -30,7 +30,7 @@ if ! [ -x "$(command -v ssh-keygen)" ]; then
 fi
 
 # Define the key file name and passphrase
-KEY_NAME="school"
+KEY_NAME="~/.ssh/school"
 PASSPHRASE="betty"
 
 # Generate the RSA key pair
