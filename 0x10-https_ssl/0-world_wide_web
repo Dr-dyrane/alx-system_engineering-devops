@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+###############################################################################
+# Script: 0-world_wide_web
+# Author: Alexander Udeogaranya
+# Description: This Bash script audits subdomains of a specified domain
+#              and displays information about their DNS configurations.
+# Usage: ./0-world_wide_web domain [subdomain]
+###############################################################################
+
+# Function to retrieve and display DNS configuration for a subdomain
+dns_config () {
+    # Use dig to retrieve DNS information, then process it
+    script=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+    # Print the results in a readable format
+    echo "$2 $script" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
+}
+
+# Check the number of command-line arguments provided
+if [ "$#" == 1 ]; then
+  # When only the domain is provided, display information for default subdomains
+  dns_config "$1" "www"
+  dns_config "$1" "lb-01"
+  dns_config "$1" "web-01"
+  dns_config "$1" "web-02"
+elif [ "$#" == 2 ]; then
+  # When both domain and subdomain are provided, display information for the specified subdomain
+  dns_config "$1" "$2"
+fi
