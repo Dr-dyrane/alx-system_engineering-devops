@@ -1,0 +1,33 @@
+global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+
+frontend load_balancer
+    bind *:443 ssl crt /etc/haproxy/certs/www.dr-dyrane.tech.pem
+    http-request set-header X-Forwarded-Proto https
+    default_backend web_servers
+
+frontend redirect_http_to_https
+    bind *:80
+    mode http
+    option httplog
+    option forwardfor
+    reqadd X-Forwarded-Proto:\ http
+    redirect scheme https if !{ ssl_fc }
+    
+backend web_servers
+    balance roundrobin
+    server 294840-web-01 100.25.46.228:80 check
+    server 294840-web-02 54.236.222.22:80 check
