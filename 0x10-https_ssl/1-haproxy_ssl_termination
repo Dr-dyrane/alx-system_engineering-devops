@@ -14,10 +14,10 @@ defaults
     timeout client  50000
     timeout server  50000
 
-frontend www-https
-    bind *:443 ssl crt /etc/letsencrypt/live/www.dr-dyrane.tech/fullchain.pem
-    reqadd X-Forwarded-Proto:\ https
-    default_backend web-servers
+frontend load_balancer
+    bind *:443 ssl crt /etc/haproxy/certs/www.dr-dyrane.tech.pem
+    http-request set-header X-Forwarded-Proto https
+    default_backend web_servers
 
 backend web_servers
     balance roundrobin
