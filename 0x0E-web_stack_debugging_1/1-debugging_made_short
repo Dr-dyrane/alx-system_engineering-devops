@@ -1,32 +1,5 @@
 #!/usr/bin/env bash
-###############################################################################
-# Script: 1-debugging_made_short
-#
-# Description:
-#   This script is designed to fix an issue with Nginx not listening on port 80
-#   in an Ubuntu container in as few lines as possible. It changes the port in
-#   the Nginx configuration to 80, restarts the Nginx service, and forcefully
-#   kills the Nginx process to ensure the changes take effect.
-#
-# Requirements:
-#   - Nginx must be running.
-#
-# Usage:
-#   Run this script using the following command:
-#   ./1-debugging_made_short
-#
-# Author:
-#   [Alexander Udeogaranya]
-#   https://github.com/Dr-dyrane/alx-higher_level_programming/
-#   0x0E-web_stack_debugging_1
-#
-###############################################################################
-
-# Change the port in Nginx configuration to 80
+#This script is designed to fix an issue with Nginx not listening on port 80
 sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
-
-# Restart the Nginx service
 sudo service nginx restart
-
-# Forcefully kill the Nginx process to ensure changes take effect
 kill -9 "$(cat /var/run/nginx.pid)"
