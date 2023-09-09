@@ -15,19 +15,13 @@ defaults
     timeout server  50000
 
 frontend load_balancer
-    bind *:443 ssl crt /etc/haproxy/certs/www.dr-dyrane.tech.pem
-    http-request set-header X-Forwarded-Proto https
-    default_backend web_servers
-
-frontend redirect_http_to_https
     bind *:80
-    mode http
-    option httplog
-    option forwardfor
-    reqadd X-Forwarded-Proto:\ http
-    redirect scheme https if !{ ssl_fc }
-    
-backend web_servers
+    bind *:443 ssl crt /etc/letsencrypt/archive/www.dr-dyrane.tech/www.dr-dyrane.tech.pem
+    default_backend dr-dyrane-backend
+    # Redirect HTTP to HTTPS
+    redirect scheme https code 301 if !{ ssl_fc }
+
+backend dr-dyrane-backend
     balance roundrobin
     server 294840-web-01 100.25.46.228:80 check
     server 294840-web-02 54.236.222.22:80 check
