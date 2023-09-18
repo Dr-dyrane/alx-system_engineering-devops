@@ -1,10 +1,43 @@
+#!/usr/bin/env bash
+###############################################################################
+# Script: 0-block_all_incoming_traffic_but.sh
+#
+# Description:
+# This script installs & configures the ufw (Uncomplicated Firewall) - a server
+# to block all incoming traffic except for SSH (port 22),
+# HTTPS (port 443), and HTTP (port 80).
+#
+# Usage:
+# - Make sure you have SSH access to the server.
+# - Execute this script with sudo privileges.
+#
+# Example:
+# sudo ./0-block_all_incoming_traffic_but.sh
+#
+# Author: Alexander Udeogaranya
+# Date: September 18, 2023
+###############################################################################
+
+# Update package repositories and install ufw
 sudo apt-get -y update
 sudo apt-get -y install ufw
-sudo ufw disable
+
+# Disable the firewalls
+udo ufw disable
+
+# Set default incoming policy to deny
 sudo ufw default deny incoming
+
+# Set default outgoing policy to allow
 sudo ufw default allow outgoing
-sudo systemctl stop ufw
+
+# Allow incoming traffic on SSH, HTTPS, and HTTP ports
 sudo ufw allow 22/tcp
 sudo ufw allow 443/tcp
 sudo ufw allow 80/tcp
+
+# Enable the firewall
 sudo ufw enable
+
+# Display firewall status
+sudo ufw status verbose
