@@ -23,7 +23,7 @@ sudo apt-get -y update
 sudo apt-get -y install ufw
 
 # Disable the firewalls
-udo ufw disable
+sudo ufw disable
 
 # Set default incoming policy to deny
 sudo ufw default deny incoming
