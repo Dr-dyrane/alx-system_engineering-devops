@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 ###############################################################################
 # Script: 0-block_all_incoming_traffic_but.sh
 #
@@ -19,11 +18,19 @@
 ###############################################################################
 
 # Update package repositories and install ufw
-sudo apt update
-sudo apt install ufw -y
+sudo apt-get -y update
+sudo apt-get -y install ufw
+
+# Disable the firewalls
+udo ufw disable
 
 # Set default incoming policy to deny
 sudo ufw default deny incoming
+
+# Set default outgoing policy to allow
+sudo ufw default allow outgoing
+
+sudo systemctl stop ufw
 
 # Allow incoming traffic on SSH, HTTPS, and HTTP ports
 sudo ufw allow 22/tcp
