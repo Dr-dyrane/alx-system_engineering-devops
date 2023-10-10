@@ -129,9 +129,7 @@ The immediate resolution involved restarting the server to regain access to the 
 
 **Tasks to Address the Issue:**
 
-- Implement
-
- automated server hardware health checks.
+- Implement automated server hardware health checks.
 - Enhance documentation for incident response procedures.
 - Schedule regular hardware maintenance and inspections.
 
