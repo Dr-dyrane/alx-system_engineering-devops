@@ -17,14 +17,11 @@ def count_words(subreddit, word_list, after=None):
     Note:
         Words with no matches will be skipped.
     """
-    url = f"https://www.reddit.com/r/{
-        subreddit
-        }/hot.json?limit=100&after={
-            after
-        }"
+    s = subreddit
+    u = f"https://www.reddit.com/r/{s}/hot.json?limit=100&after={after}"
     # Set a custom User-Agent to avoid Too Many Requests errors
     headers = {"User-Agent": "my-app/0.0.1"}
-    response = requests.get(url, headers=headers)
+    response = requests.get(u, headers=headers)
 
     if response.status_code == 200:
         data = response.json()

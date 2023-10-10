@@ -15,14 +15,11 @@ def recurse(subreddit, hot_list=[], after=None):
         list: List containing titles of hot articles for the subreddit,
         or None if not found or invalid.
     """
-    url = f"https://www.reddit.com/r/{
-        subreddit
-        }/hot.json?limit=100&after={
-            after
-        }"
+    s = subreddit
+    u = f"https://www.reddit.com/r/{s}/hot.json?limit=100&after={after}"
     # Set a custom User-Agent to avoid Too Many Requests errors
     headers = {"User-Agent": "my-app/0.0.1"}
-    response = requests.get(url, headers=headers)
+    response = requests.get(u, headers=headers)
 
     if response.status_code == 200:
         data = response.json()
