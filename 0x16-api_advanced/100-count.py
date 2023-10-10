@@ -57,9 +57,7 @@ def count_words(subreddit, word_list, after=None, word_counts=None):
 
 if __name__ == "__main__":
 
-
     import sys
-
 
     if len(sys.argv) < 3:
         print("Usage: {} <subreddit> <list of keywords>".format(sys.argv[0]))
