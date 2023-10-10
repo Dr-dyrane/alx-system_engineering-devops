@@ -1,131 +1,54 @@
 #!/usr/bin/python3
-"""Reddit API keyword counter"""
+""" raddit api"""
 
-
+import json
 import requests
 
 
-def fetch_posts(subreddit, after=""):
-    """
-    Fetches hot articles from a subreddit.
+def count_words(subreddit, word_list, after="", count=[]):
+    """count all words"""
 
-    Args:
-        subreddit (str): The subreddit name.
-        after (str): The 'after' parameter for pagination.
+    if after == "":
+        count = [0] * len(word_list)
 
-    Returns:
-        dict: JSON response containing post data or None on error.
-    """
-    s = subreddit
-    url = f"https://www.reddit.com/r/{s}/hot.json?limit=100&after={after}"
-    headers = {"User-Agent": "my-app/0.0.1"}
-    response = requests.get(url, headers=headers)
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    request = requests.get(url,
+                           params={'after': after},
+                           allow_redirects=False,
+                           headers={'user-agent': 'bhalut'})
 
-    if response.status_code == 200:
-        return response.json()
-    else:
-        print(f"Error: Failed to fetch data for subreddit '{subreddit}'.")
-        return None
+    if request.status_code == 200:
+        data = request.json()
 
+        for topic in (data['data']['children']):
+            for word in topic['data']['title'].split():
+                for i in range(len(word_list)):
+                    if word_list[i].lower() == word.lower():
+                        count[i] += 1
 
-def count_occurrences(title, word_list):
-    """
-    Counts the occurrences of keywords in a title.
+        after = data['data']['after']
+        if after is None:
+            save = []
+            for i in range(len(word_list)):
+                for j in range(i + 1, len(word_list)):
+                    if word_list[i].lower() == word_list[j].lower():
+                        save.append(j)
+                        count[i] += count[j]
 
-    Args:
-        title (str): The post title.
-        word_list (list): List of keywords to count.
+            for i in range(len(word_list)):
+                for j in range(i, len(word_list)):
+                    if (count[j] > count[i] or
+                            (word_list[i] > word_list[j] and
+                             count[j] == count[i])):
+                        aux = count[i]
+                        count[i] = count[j]
+                        count[j] = aux
+                        aux = word_list[i]
+                        word_list[i] = word_list[j]
+                        word_list[j] = aux
 
-    Returns:
-        dict: Dictionary of keyword counts.
-    """
-    word_count = {word.lower(): 0 for word in word_list}
-
-    for word in title.lower().split():
-        if word in word_count:
-            word_count[word] += 1
-
-    return word_count
-
-
-def consolidate_counts(counts):
-    """
-    Consolidates keyword counts, summing duplicates.
-
-    Args:
-        counts (list): List of dictionaries containing keyword counts.
-
-    Returns:
-        dict: Consolidated keyword counts.
-    """
-    consolidated = {}
-
-    for count in counts:
-        for word, value in count.items():
-            if word in consolidated:
-                consolidated[word] += value
-            else:
-                consolidated[word] = value
-
-    return consolidated
-
-
-def print_sorted_counts(counts):
-    """
-    Prints sorted keyword counts.
-
-    Args:
-        counts (dict): Dictionary of keyword counts.
-    """
-    sorted_counts = sorted(counts.items(), key=lambda x: (-x[1], x[0]))
-
-    for word, count in sorted_counts:
-        print(f"{word}: {count}")
-
-
-def count_words(subreddit, word_list, after=None):
-    """
-    Recursively queries the Reddit API,
-    counts keywords, and prints sorted counts.
-
-    Args:
-        subreddit (str): The subreddit name.
-        word_list (list): List of keywords to count.
-        after (str): The 'after' parameter for pagination.
-    """
-    if after is None:
-        after = ""
-
-    posts = fetch_posts(subreddit, after)
-
-    if posts is not None:
-        counts = [
-            count_occurrences(
-                post['data']['title'], word_list
-            )
-            for post in posts['data']['children']
-        ]
-
-        if posts['data']['after']:
-            counts.extend(
-                count_words(subreddit, word_list, posts['data']['after'])
-            )
-
-        consolidated_counts = consolidate_counts(counts)
-        print_sorted_counts(consolidated_counts)
-
-    return counts
-
-
-if __name__ == '__main__':
-    import sys
-
-    if len(sys.argv) < 3:
-        print("Usage: {} <subreddit> <list of keywords>".format(sys.argv[0]))
-        print(
-            "Ex: {} programming 'python java javascript'".format(sys.argv[0])
-        )
-    else:
-        subreddit = sys.argv[1]
-        keywords = sys.argv[2].split()
-        count_words(subreddit, keywords)
+            for i in range(len(word_list)):
+                if (count[i] > 0) and i not in save:
+                    print("{}: {}".format(word_list[i].lower(), count[i]))
+        else:
+            count_words(subreddit, word_list, after, count)
