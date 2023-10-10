@@ -1,3 +1,10 @@
+#!/usr/bin/python3
+"""
+    Recursively queries the Reddit API, counts keywords,
+    and prints sorted counts.
+"""
+
+
 import requests
 
 
