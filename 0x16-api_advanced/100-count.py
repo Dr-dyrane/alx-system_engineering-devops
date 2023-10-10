@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 """Reddit API"""
 
+
 import requests
 
 
-def count_words(subreddit, word_list, after="", count=[]):
+def count_words(subreddit, word_list, after="", word_counts=None):
     """
     Recursively count occurrences of words in hot articles on a subreddit.
 
@@ -13,52 +14,42 @@ def count_words(subreddit, word_list, after="", count=[]):
     :param after: Reddit API 'after' parameter for pagination.
     :param word_counts: Dictionary to store word counts.
     """
-    if after == "":
-        count = [0] * len(word_list)
+    if word_counts is None:
+        word_counts = {}  # Initialize word counts dictionary
 
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json".format(subreddit)
-    request = requests.get(url,
-                           params={'after': after},
-                           allow_redirects=False,
-                           headers={'user-agent': 'bhalut'})
+    # Base case: if after is None, print and return sorted results
+    if after is None:
+        sorted_counts = sorted(
+            word_counts.items(), key=lambda x: (-x[1], x[0].lower()))
+        for word, count in sorted_counts:
+            print(f"{word.lower()}: {count}")
+        return
 
-    if request.status_code == 200:
-        data = request.json()
+    # Make an API request to fetch hot articles
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
+    headers = {'User-Agent': 'YourUserAgent'}
+    params = {'after': after}
+    response = requests.get(
+        url, headers=headers, params=params, allow_redirects=False)
 
-        # Count words in each article
-        count_words_in_articles(data['data']['children'], word_list, count)
+    if response.status_code == 200:
+        data = response.json()
 
+        # Iterate through each article
+        for article in data['data']['children']:
+            title_words = article['data']['title'].lower().split()
+
+            # Iterate through the words in the title
+            for word in title_words:
+                # Check if the word matches any word in the word_list
+                for target_word in word_list:
+                    if target_word.lower() == word:
+                        word_counts[target_word] = (
+                            word_counts.get(target_word, 0) + 1)
+
+        # Recursive call with the 'after' parameter to fetch the next page
         after = data['data']['after']
-        if after is None:
-            # Combine duplicates and print results
-            combined_counts = combine_counts(word_list, count)
-            sorted_counts = sorted(
-                combined_counts.items(), key=lambda x: (-x[1], x[0].lower()))
-            for word, count in sorted_counts:
-                print(f"{word.lower()}: {count}")
-        else:
-            count_words(subreddit, word_list, after, count)
-
-
-def combine_counts(word_list, count):
-    """Combine duplicate words and lowercase them"""
-    combined_counts = {}
-    for i, word in enumerate(word_list):
-        word_lower = word.lower()
-        combined_counts[word_lower] = (
-            combined_counts.get(word_lower, 0) + count[i])
-    return combined_counts
-
-
-def count_words_in_articles(articles, word_list, count):
-    """Count words in articles"""
-    for article in articles:
-        title_words = article['data']['title'].split()
-        for word in title_words:
-            word_lower = word.lower()
-            for i, target_word in enumerate(word_list):
-                if target_word.lower() == word_lower:
-                    count[i] += 1
+        count_words(subreddit, word_list, after, word_counts)
 
 
 if __name__ == "__main__":
@@ -70,5 +61,5 @@ if __name__ == "__main__":
             "Ex: {} programming 'python java javascript'".format(sys.argv[0]))
     else:
         subreddit = sys.argv[1]
-        word_list = sys.argv[2].split()
+        word_list = sys.argv[2].lower().split()
         count_words(subreddit, word_list)
