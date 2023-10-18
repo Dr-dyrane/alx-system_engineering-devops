@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# reload guinicorn
+
+pgrep gunicorn | xargs kill -HUP
