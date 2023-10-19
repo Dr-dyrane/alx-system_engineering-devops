@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 # This script gracefully reloads Gunicorn without service interruption.
 
-# Gracefully restart Gunicorn
-kill -HUP $(pgrep gunicorn)
+pgrep gunicorn | xargs kill -HUP
