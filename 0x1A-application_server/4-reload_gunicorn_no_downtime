@@ -1,4 +1,31 @@
 #!/usr/bin/env bash
-# reload guinicorn
+# This script gracefully reloads Gunicorn without service interruption.
 
-pgrep gunicorn | xargs kill -HUP
+# Gracefully restart Gunicorn
+graceful_restart() {
+    # Find the process IDs (PIDs) of Gunicorn processes
+    pids=$(pgrep gunicorn)
+
+    # Send the HUP signal to each Gunicorn process
+    for pid in $pids; do
+        kill -HUP $pid
+    done
+}
+
+# Check if Gunicorn is running
+if ! pgrep gunicorn &> /dev/null; then
+    echo "Gunicorn is not running."
+    exit 1
+fi
+
+# Reload Gunicorn gracefully
+echo "Reloading Gunicorn gracefully..."
+graceful_restart
+
+# Verify the restart
+sleep 1
+if pgrep gunicorn &> /dev/null; then
+    echo "Gunicorn gracefully reloaded."
+else
+    echo "Gunicorn reload failed. Check logs for details."
+fi
