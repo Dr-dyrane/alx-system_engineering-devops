@@ -1,7 +1,9 @@
 # Puppet Manifest to Optimize Nginx for Handling High Traffic
 
 # Description:
-# This manifest aims to optimize the Nginx web server configuration to handle high traffic loads efficiently and reduce the number of failed requests.
+# This manifest aims to optimize the Nginx web server configuration
+# to handle high traffic loads efficiently and
+# reduce the number of failed requests.
 
 # Puppet Lint:
 # This manifest adheres to Puppet Lint version 2.1.1 without errors.

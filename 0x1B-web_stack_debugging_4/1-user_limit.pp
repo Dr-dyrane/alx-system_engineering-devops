@@ -1,7 +1,9 @@
 # Puppet Manifest to Adjust User Limits for the holberton User
 
 # Description:
-# This manifest changes the OS configuration to enable the user 'holberton' to log in and open files without encountering "Too many open files" errors.
+# This manifest changes the OS configuration to enable the user
+# 'holberton' to log in and open files without encountering
+# "Too many open files" errors.
 
 # Puppet Lint:
 # This manifest adheres to Puppet Lint version 2.1.1 without errors.
