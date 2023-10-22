@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # This script gracefully reloads Gunicorn without service interruption.
 
-ps aux| grep gunicorn | awk '{ print $2}' | xargs kill -HUP
+ps aux | grep gunicorn | awk '{ print $2}' | xargs kill -HUP
